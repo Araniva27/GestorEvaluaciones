@@ -2,11 +2,14 @@ package com.dsm.gestorevaluacionesdsm.DAOs;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
 import com.dsm.gestorevaluacionesdsm.Modelos.Persona;
+
+import java.lang.reflect.Array;
 
 public class PersonaDAO {
 
@@ -34,5 +37,36 @@ public class PersonaDAO {
 
         db.close();
         return result;
+    }
+
+    public long[] iniciarSesion(String usuario, String contrasena)
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projeccion = { "id_persona", "contraseña_persona", "id_tipo_usuario" };
+
+        String seleccion = "usuario_persona = ? AND contraseña_persona = ?";
+
+        String[] argumentosSeleccion = { usuario, contrasena };
+
+        Cursor cursor = db.query("personas", projeccion, seleccion, argumentosSeleccion, null, null, null);
+
+        long[] datosUsuario = new long[2];
+
+        if(cursor != null && cursor.moveToFirst())
+        {
+            long idUsuario = cursor.getLong(cursor.getColumnIndexOrThrow("id_persona"));
+            long idTipoUsuaro = cursor.getLong(cursor.getColumnIndexOrThrow("id_tipo_usuario"));
+            datosUsuario[0] = idUsuario;
+            datosUsuario[1] = idTipoUsuaro;
+            cursor.close();
+            return datosUsuario;
+        }else{
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+
     }
 }
