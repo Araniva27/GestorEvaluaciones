@@ -68,7 +68,7 @@ public class RegistroUsuarios extends AppCompatActivity {
                                 persona.setUsuarioPersona(usuario);
                                 persona.setContrasenaPersona(generarHashSHA256(contraseña));
                                 persona.setCorreoPersona(correo);
-                                persona.setTipoUsuarioPersona("2");
+                                persona.setTipoUsuarioPersona(usuario.equals("Administrador") ? "1" : "2");
 
                                 PersonaDAO pDao = new PersonaDAO(RegistroUsuarios.this);
                                 if(pDao.insertarPersona(persona) != -1){
