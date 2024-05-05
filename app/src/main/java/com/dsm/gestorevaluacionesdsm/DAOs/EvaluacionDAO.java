@@ -2,11 +2,15 @@ package com.dsm.gestorevaluacionesdsm.DAOs;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
 import com.dsm.gestorevaluacionesdsm.EvaluacionesCreadas;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EvaluacionDAO {
     private DBHelper dbHelper;
@@ -29,4 +33,29 @@ public class EvaluacionDAO {
         db.close();
         return result;
     }
+
+    public List<Evaluacion> obtenerTodasLasEvaluaciones() {
+        List<Evaluacion> evaluaciones = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM evaluaciones", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Evaluacion evaluacion = new Evaluacion();
+                evaluacion.setIdEvaluacion(cursor.getInt(cursor.getColumnIndex("id_evaluacion")));
+                evaluacion.setNombreEvaluacion(cursor.getString(cursor.getColumnIndex("nombre_evaluacion")));
+                evaluacion.setDescripcionEvaluacion(cursor.getString(cursor.getColumnIndex("descripcion_evaluacion")));
+                evaluacion.setImg(cursor.getString(cursor.getColumnIndex("img")));
+                evaluaciones.add(evaluacion);
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return evaluaciones;
+    }
+
 }

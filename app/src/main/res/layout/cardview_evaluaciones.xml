@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp" >
+
+    <LinearLayout
+        android:id="@+id/layoutEvaluaciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageViewEvaluacion"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/email" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblTituloEvaluacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título de la Evaluación"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="50dp" />
+
+            <TextView
+                android:id="@+id/txtCantidadPreguntas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cantidad de preguntas: 10"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

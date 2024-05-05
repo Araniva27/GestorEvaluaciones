@@ -2,6 +2,8 @@ package com.dsm.gestorevaluacionesdsm;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,18 +12,36 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorEvaluaciones;
 import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EvaluacionesCreadas extends AppCompatActivity {
+import java.util.List;
 
+public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorEvaluaciones.OnItemClickListener {
+    //private RecyclerView recyclerViewEvaluaciones;
+    private LinearLayout layoutEvaluaciones;
+    RecyclerView recyclerView;
+    private EvaluacionDAO evaluacionDAO;
+    private AdaptadorEvaluaciones adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluaciones_creadas);
+        //layoutEvaluaciones = findViewById(R.id.layoutEvaluaciones);
+
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        evaluacionDAO = new EvaluacionDAO(this);
+
 
         FloatingActionButton fabAgregarEvaluacion = findViewById(R.id.fabAgregarEvaluacion);
         fabAgregarEvaluacion.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +50,15 @@ public class EvaluacionesCreadas extends AppCompatActivity {
                 mostrarDialogoAgregarEvaluacion(EvaluacionesCreadas.this);
             }
         });
+
+        mostrarEvaluaciones();
+
+
+    }
+    @Override
+    public void onItemClick(Evaluacion evaluacion) {
+        // Manejar el clic en el elemento
+        Toast.makeText(this, "Clic en: " + evaluacion.getNombreEvaluacion(), Toast.LENGTH_SHORT).show();
     }
 
     private void mostrarDialogoAgregarEvaluacion(Context context) {
@@ -63,6 +92,7 @@ public class EvaluacionesCreadas extends AppCompatActivity {
                     if(eDao.insertarEvaluacion(evaluacion) != -1){
                         Toast.makeText(context, "Evaluacion registrada", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        mostrarEvaluaciones();
                     }else{
                         Toast.makeText(EvaluacionesCreadas.this, "Ha ocurrido un error al registrar el usuario", Toast.LENGTH_SHORT).show();
                     }
@@ -83,4 +113,13 @@ public class EvaluacionesCreadas extends AppCompatActivity {
         // Mostrar el diálogo
         builder.show();
     }
+
+
+    private void mostrarEvaluaciones() {
+        List<Evaluacion> evaluaciones = evaluacionDAO.obtenerTodasLasEvaluaciones();
+        adaptador = new AdaptadorEvaluaciones(this, evaluaciones,this);
+        recyclerView.setAdapter(adaptador);
+    }
+
+
 }
