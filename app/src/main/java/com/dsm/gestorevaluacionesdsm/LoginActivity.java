@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         if(datosUsuario[1] == 1)
                         {
+                            Intent intent = new Intent(LoginActivity.this, EvaluacionesCreadas.class);
+                            startActivity(intent);
                             Toast.makeText(LoginActivity.this, "Bienvenido Administrador", Toast.LENGTH_SHORT).show();
                         } else if (datosUsuario[1] == 2){
                             Toast.makeText(LoginActivity.this, "Bienvenido Usuario", Toast.LENGTH_SHORT).show();
