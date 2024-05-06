@@ -1,14 +1,17 @@
 package com.dsm.gestorevaluacionesdsm.Adaptadores;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.R;
 
@@ -18,6 +21,7 @@ public class AdaptadorEvaluaciones extends RecyclerView.Adapter<AdaptadorEvaluac
     private List<Evaluacion> listaEvaluaciones;
     private Context context;
     private OnItemClickListener listener;
+    //private EvaluacionDAO edao;
 
     public AdaptadorEvaluaciones(Context context, List<Evaluacion> listaEvaluaciones, OnItemClickListener listener) {
         this.context = context;
@@ -53,23 +57,22 @@ public class AdaptadorEvaluaciones extends RecyclerView.Adapter<AdaptadorEvaluac
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView lblTituloEvaluacion;
         private TextView txtCantidadPreguntas;
+        private EditText txtIdEvaluacion;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             lblTituloEvaluacion = itemView.findViewById(R.id.lblTituloEvaluacion);
             txtCantidadPreguntas = itemView.findViewById(R.id.txtCantidadPreguntas);
+            txtIdEvaluacion = itemView.findViewById(R.id.txtIdEvaluacion);
         }
 
         public void bind(Evaluacion evaluacion) {
             lblTituloEvaluacion.setText(evaluacion.getNombreEvaluacion());
-            txtCantidadPreguntas.setText("Cantidad de preguntas: 10");
+            //txtCantidadPreguntas.setText("Cantidad de preguntas: "+EvaluacionDAO.obtenerCantidadPreguntasEvaluacion(evaluacion.getIdEvaluacion()));
+            txtIdEvaluacion.setText(""+evaluacion.getIdEvaluacion());
         }
 
-        private int obtenerCantidadPreguntas(int idEvaluacion) {
-            // Aquí deberías implementar la lógica para obtener la cantidad de preguntas de la evaluación
-            // Esto podría implicar realizar una consulta a la base de datos
-            return 0; // Solo un valor de ejemplo
-        }
+
     }
 
     public interface OnItemClickListener {

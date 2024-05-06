@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -58,7 +59,9 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
     @Override
     public void onItemClick(Evaluacion evaluacion) {
         // Manejar el clic en el elemento
-        Toast.makeText(this, "Clic en: " + evaluacion.getNombreEvaluacion(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clic en: " + evaluacion.getIdEvaluacion(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EvaluacionesCreadas.this, EvaluacionInformacion.class);
+        startActivity(intent);
     }
 
     private void mostrarDialogoAgregarEvaluacion(Context context) {

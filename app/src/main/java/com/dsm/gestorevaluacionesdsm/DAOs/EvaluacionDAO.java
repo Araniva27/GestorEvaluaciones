@@ -38,7 +38,6 @@ public class EvaluacionDAO {
         List<Evaluacion> evaluaciones = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM evaluaciones", null);
-
         if (cursor.moveToFirst()) {
             do {
                 Evaluacion evaluacion = new Evaluacion();
@@ -56,6 +55,24 @@ public class EvaluacionDAO {
         db.close();
 
         return evaluaciones;
+    }
+
+    public int obtenerCantidadPreguntasEvaluacion(int idEvaluacion){
+        int cantidadPreguntas = 0;
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM preguntas_evaluacion WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                cantidadPreguntas = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+
+
+        db.close();
+
+        return cantidadPreguntas;
     }
 
 }
