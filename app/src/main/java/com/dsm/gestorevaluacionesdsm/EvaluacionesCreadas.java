@@ -13,10 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorEvaluaciones;
@@ -74,7 +71,7 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
         // Obtener la referencia al EditText en el layout personalizado
         //final EditText input = viewInflated.findViewById(R.id.txtNombreEvaluacion);
         final EditText inputNombre = viewInflated.findViewById(R.id.txtNombreEvaluacion);
-        final EditText inputDescripcion = viewInflated.findViewById(R.id.txtDescripcionEvaluacion);
+        final EditText inputDescripcion = viewInflated.findViewById(R.id.txtPreguntaEvaluacion);
         builder.setView(viewInflated);
 
         // Configurar los botones del diálogo
