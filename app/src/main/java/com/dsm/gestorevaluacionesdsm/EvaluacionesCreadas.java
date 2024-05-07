@@ -61,6 +61,7 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
         // Manejar el clic en el elemento
         Toast.makeText(this, "Clic en: " + evaluacion.getIdEvaluacion(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(EvaluacionesCreadas.this, EvaluacionInformacion.class);
+        intent.putExtra("idEvaluacion",evaluacion.getIdEvaluacion());
         startActivity(intent);
     }
 

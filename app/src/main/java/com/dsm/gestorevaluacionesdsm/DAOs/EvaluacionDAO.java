@@ -75,4 +75,27 @@ public class EvaluacionDAO {
         return cantidadPreguntas;
     }
 
+    public String[] obtenerDescripcionEvaluacion(int idEvaluacion){
+
+        String[] informacionEvaluacion = new String[2];
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT nombre_evaluacion,descripcion_evaluacion FROM evaluaciones WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                informacionEvaluacion[0] = cursor.getString(cursor.getColumnIndex("nombre_evaluacion"));
+                informacionEvaluacion[1] = cursor.getString(cursor.getColumnIndex("descripcion_evaluacion"));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+
+        db.close();
+
+        return informacionEvaluacion;
+    }
+
 }
