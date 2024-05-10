@@ -39,7 +39,7 @@
                     android:id="@+id/lblTituloEvaluacionDetalle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="24dp"
                     android:foregroundTint="@color/white"
                     android:text="Titulo evaluacion"
@@ -53,8 +53,8 @@
                     android:id="@+id/lblCantidadPreguntasDetalle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
                     android:text="TextView"
                     android:textColor="@color/white"
                     android:textSize="16sp"
@@ -93,7 +93,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/btnModificar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

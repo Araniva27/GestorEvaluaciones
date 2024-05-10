@@ -111,4 +111,42 @@ public class EvaluacionDAO {
         return resultEvaluation;
     }
 
+    public int modificarEvaluacion(Evaluacion evaluacion) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nombre_evaluacion", evaluacion.getNombreEvaluacion());
+        values.put("descripcion_evaluacion", evaluacion.getDescripcionEvaluacion());
+
+        // La condición WHERE especifica qué lista debe ser actualizada
+        String whereClause = "id_evaluacion = ?";
+        String[] whereArgs = {String.valueOf(evaluacion.getIdEvaluacion())};
+
+        int result = db.update("evaluaciones", values, whereClause, whereArgs);
+
+        db.close();
+        return result;
+    }
+
+    public String[] obtenerInformacionEvaluacion(int idEvaluacion){
+        String[] informacionEvaluacion = new String[2];
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT nombre_evaluacion, descripcion_evaluacion FROM evaluaciones WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                informacionEvaluacion[0] = cursor.getString(cursor.getColumnIndex("nombre_evaluacion"));
+                informacionEvaluacion[1] = cursor.getString(cursor.getColumnIndex("descripcion_evaluacion"));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+
+        db.close();
+
+        return informacionEvaluacion;
+    }
+
 }

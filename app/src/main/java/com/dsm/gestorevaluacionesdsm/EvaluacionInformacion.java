@@ -33,7 +33,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
     EditText txtIdEvaluacion;
     TextView lblDescripcion, lblTitulo, lblCantidadPreguntas;
 
-    ImageView btnRegresar, btnEliminarCuestionario;
+    ImageView btnRegresar, btnEliminarCuestionario, btnActualizar;
     RecyclerView recyclerView;
     private AdaptadorPreguntas adaptador;
     EvaluacionDAO evaluacionDAO = new EvaluacionDAO(EvaluacionInformacion.this);
@@ -65,6 +65,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
         lblCantidadPreguntas.setText(""+cantidadPreguntas+" preguntas");
 
         btnEliminarCuestionario = findViewById(R.id.btnEliminarCuestionario);
+        btnActualizar = findViewById(R.id.btnModificar);
         fabAgregarPregunta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +85,13 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
             @Override
             public void onClick(View v) {
                 mostrarDialogoConfirmacionEliminacion(EvaluacionInformacion.this, idEvaluacion);
+            }
+        });
+
+        btnActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoActualizar(EvaluacionInformacion.this, idEvaluacion, nombreEvaluacion, descripcionEvaluacion);
             }
         });
     }
@@ -184,6 +192,57 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
             }else{
                 Toast.makeText(context, "Ha ocurrido un error al eliminar la evaluación", Toast.LENGTH_SHORT).show();
             }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
+    }
+
+    private void mostrarDialogoActualizar(Context context, int idEvaluacion, String nombre, String descripcion) {
+        EditText txtNombre, txtDescripcion, txtIdEvaluacion;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Actualizar evaluación");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_actualizar_evaluacion, null);
+        builder.setView(viewInflated);
+
+        txtNombre = viewInflated.findViewById(R.id.txtNombreEvaluacionActualizar);
+        txtDescripcion = viewInflated.findViewById(R.id.txtDescripcionEvaluacion);
+        txtIdEvaluacion = viewInflated.findViewById(R.id.txtIdEvaluacion);
+
+        txtIdEvaluacion.setText(""+idEvaluacion);
+        txtNombre.setText(""+nombre);
+        txtDescripcion.setText(""+descripcion);
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String nombre = txtNombre.getText().toString();
+                String descripcion = txtDescripcion.getText().toString();
+                Evaluacion evaluacion = new Evaluacion();
+                evaluacion.setNombreEvaluacion(nombre);
+                evaluacion.setDescripcionEvaluacion(descripcion);
+                evaluacion.setIdEvaluacion(idEvaluacion);
+
+                EvaluacionDAO eDao = new EvaluacionDAO(EvaluacionInformacion.this);
+                if(eDao.modificarEvaluacion(evaluacion) != -1){
+                    String[] datosEvaluacion = eDao.obtenerInformacionEvaluacion(idEvaluacion);
+                    lblDescripcion.setText(""+datosEvaluacion[1]);
+                    lblTitulo.setText(""+datosEvaluacion[0]);
+                    Toast.makeText(context, "La evaluación ha sido modificada correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Ha ocurrido un error al modificar la evaluación", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
