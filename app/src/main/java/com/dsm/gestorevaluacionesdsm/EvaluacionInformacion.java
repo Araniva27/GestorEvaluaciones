@@ -2,6 +2,8 @@ package com.dsm.gestorevaluacionesdsm;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,21 +13,31 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorEvaluaciones;
+import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorPreguntas;
 import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.DAOs.PreguntaDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EvaluacionInformacion extends AppCompatActivity {
+import java.util.List;
+
+
+public class EvaluacionInformacion extends AppCompatActivity implements AdaptadorPreguntas.OnItemClickListener {
 
     EditText txtIdEvaluacion;
     TextView lblDescripcion, lblTitulo, lblCantidadPreguntas;
 
+    ImageView btnRegresar;
+    RecyclerView recyclerView;
+    private AdaptadorPreguntas adaptador;
     EvaluacionDAO evaluacionDAO = new EvaluacionDAO(EvaluacionInformacion.this);
+    PreguntaDAO preguntaDAO = new PreguntaDAO(EvaluacionInformacion.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +47,10 @@ public class EvaluacionInformacion extends AppCompatActivity {
         lblDescripcion = findViewById(R.id.lblPregunta);
         lblTitulo = findViewById(R.id.lblTituloEvaluacionDetalle);
         lblCantidadPreguntas = findViewById(R.id.lblCantidadPreguntasDetalle);
+        recyclerView = findViewById(R.id.recyclerViewPreguntas);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         FloatingActionButton fabAgregarPregunta = findViewById(R.id.btnAgregarPregunta);
+        btnRegresar = findViewById(R.id.btnRegresar);
         Intent intent = getIntent();
         int idEvaluacion = intent.getIntExtra("idEvaluacion",-1);
         txtIdEvaluacion.setText(""+idEvaluacion);
@@ -55,6 +70,23 @@ public class EvaluacionInformacion extends AppCompatActivity {
                 mostrarDialogoAgregarPregunta(EvaluacionInformacion.this, idEvaluacion);
             }
         });
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EvaluacionInformacion.this, EvaluacionesCreadas.class));
+            }
+        });
+
+        mostrarPreguntas(idEvaluacion);
+    }
+
+    @Override
+    public void onItemClick(Pregunta pregunta) {
+        // Manejar el clic en el elemento
+        Toast.makeText(this, "Clic en: " + pregunta.getIdPregunta(), Toast.LENGTH_SHORT).show();
+        /*Intent intent = new Intent(EvaluacionesCreadas.this, EvaluacionInformacion.class);
+        intent.putExtra("idEvaluacion",evaluacion.getIdEvaluacion());
+        startActivity(intent);*/
     }
 
     private void mostrarDialogoAgregarPregunta(Context context, int idEvaluacion) {
@@ -116,5 +148,11 @@ public class EvaluacionInformacion extends AppCompatActivity {
 
         // Mostrar el diálogo
         builder.show();
+    }
+
+    private void mostrarPreguntas(int idEvaluacion) {
+        List<Pregunta> preguntas = preguntaDAO.obtenerPreguntasEvaluacion(idEvaluacion);
+        adaptador = new AdaptadorPreguntas(preguntas,this, this);
+        recyclerView.setAdapter(adaptador);
     }
 }

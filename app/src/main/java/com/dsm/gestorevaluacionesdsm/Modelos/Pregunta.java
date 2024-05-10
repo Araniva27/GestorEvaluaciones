@@ -1,12 +1,12 @@
 package com.dsm.gestorevaluacionesdsm.Modelos;
 
 public class Pregunta {
-    private String idPregunta;
+    private int idPregunta;
     private String pregunta;
     private float valoracion;
     private int idEvaluacion;
 
-    public Pregunta(String idPregunta, String pregunta, float valoracion, int idEvaluacion) {
+    public Pregunta(int idPregunta, String pregunta, float valoracion, int idEvaluacion) {
         this.idPregunta = idPregunta;
         this.pregunta = pregunta;
         this.valoracion = valoracion;
@@ -16,11 +16,11 @@ public class Pregunta {
     public Pregunta() {
     }
 
-    public String getIdPregunta() {
+    public int getIdPregunta() {
         return idPregunta;
     }
 
-    public void setIdPregunta(String idPregunta) {
+    public void setIdPregunta(int idPregunta) {
         this.idPregunta = idPregunta;
     }
 

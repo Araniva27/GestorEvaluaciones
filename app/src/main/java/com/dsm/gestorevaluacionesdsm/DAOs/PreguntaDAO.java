@@ -6,7 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
+import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreguntaDAO {
     private DBHelper dbHelper;
@@ -46,5 +50,26 @@ public class PreguntaDAO {
         db.close();
 
         return puntajeDispo;
+    }
+
+    public List<Pregunta> obtenerPreguntasEvaluacion(int idEvaluacion) {
+        List<Pregunta> preguntas = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_pregunta, pregunta FROM preguntas_evaluacion WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        if (cursor.moveToFirst()) {
+            do {
+                Pregunta pregunta = new Pregunta();
+                pregunta.setIdPregunta(cursor.getInt(cursor.getColumnIndex("id_pregunta")));
+                pregunta.setPregunta(cursor.getString(cursor.getColumnIndex("pregunta")));
+                preguntas.add(pregunta);
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return preguntas;
     }
 }
