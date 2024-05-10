@@ -98,4 +98,17 @@ public class EvaluacionDAO {
         return informacionEvaluacion;
     }
 
+    public int eliminarCuestionario(int idCuestionario){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String whereClause = "id_evaluacion = ?";
+        String[] whereArgs = {String.valueOf(idCuestionario)};
+
+        int result = db.delete("preguntas_evaluacion", whereClause, whereArgs);
+        int resultEvaluation = db.delete("evaluaciones", whereClause, whereArgs);
+
+        db.close();
+        return resultEvaluation;
+    }
+
 }

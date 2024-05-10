@@ -33,7 +33,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
     EditText txtIdEvaluacion;
     TextView lblDescripcion, lblTitulo, lblCantidadPreguntas;
 
-    ImageView btnRegresar;
+    ImageView btnRegresar, btnEliminarCuestionario;
     RecyclerView recyclerView;
     private AdaptadorPreguntas adaptador;
     EvaluacionDAO evaluacionDAO = new EvaluacionDAO(EvaluacionInformacion.this);
@@ -64,6 +64,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
         int cantidadPreguntas = evaluacionDAO.obtenerCantidadPreguntasEvaluacion(idEvaluacion);
         lblCantidadPreguntas.setText(""+cantidadPreguntas+" preguntas");
 
+        btnEliminarCuestionario = findViewById(R.id.btnEliminarCuestionario);
         fabAgregarPregunta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +79,13 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
         });
 
         mostrarPreguntas(idEvaluacion);
+
+        btnEliminarCuestionario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoConfirmacionEliminacion(EvaluacionInformacion.this, idEvaluacion);
+            }
+        });
     }
 
     @Override
@@ -154,5 +162,40 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
         List<Pregunta> preguntas = preguntaDAO.obtenerPreguntasEvaluacion(idEvaluacion);
         adaptador = new AdaptadorPreguntas(preguntas,this, this);
         recyclerView.setAdapter(adaptador);
+    }
+
+    private void mostrarDialogoConfirmacionEliminacion(Context context, int idEvaluacion) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("IMPORTANTE");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_confirmacion_eliminacion_cuestionario, null);
+        builder.setView(viewInflated);
+
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            EvaluacionDAO eDao = new EvaluacionDAO(EvaluacionInformacion.this);
+            if(eDao.eliminarCuestionario(idEvaluacion) != -1){
+                startActivity(new Intent(EvaluacionInformacion.this, EvaluacionesCreadas.class));
+                Toast.makeText(context, "La evaluación ha sido eliminada correctamente", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context, "Ha ocurrido un error al eliminar la evaluación", Toast.LENGTH_SHORT).show();
+            }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
     }
 }
