@@ -139,7 +139,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
                             if(pDao.insertarPregunta(preguntaObj) != -1){
                                 Toast.makeText(context, "Pregunta registrada", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
-                                //mostrarEvaluaciones();
+                                mostrarPreguntas(idEvaluacion);
                             }else{
                                 Toast.makeText(EvaluacionInformacion.this, "Ha ocurrido un error al registrar la pregunta", Toast.LENGTH_SHORT).show();
                             }
