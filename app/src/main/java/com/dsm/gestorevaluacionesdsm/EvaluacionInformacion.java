@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorEvaluaciones;
 import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorPreguntas;
 import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.DAOs.PreguntaDAO;
@@ -45,11 +44,11 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
 
         txtIdEvaluacion = findViewById(R.id.txtIdEvaluacionDetalle);
         lblDescripcion = findViewById(R.id.lblPregunta);
-        lblTitulo = findViewById(R.id.lblTituloEvaluacionDetalle);
+        lblTitulo = findViewById(R.id.lblTituloPreguntaDetalle);
         lblCantidadPreguntas = findViewById(R.id.lblCantidadPreguntasDetalle);
-        recyclerView = findViewById(R.id.recyclerViewPreguntas);
+        recyclerView = findViewById(R.id.recyclerViewOpciones);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        FloatingActionButton fabAgregarPregunta = findViewById(R.id.btnAgregarPregunta);
+        FloatingActionButton fabAgregarPregunta = findViewById(R.id.btnAgregarOpcion);
         btnRegresar = findViewById(R.id.btnRegresar);
         Intent intent = getIntent();
         int idEvaluacion = intent.getIntExtra("idEvaluacion",-1);
@@ -64,7 +63,7 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
         int cantidadPreguntas = evaluacionDAO.obtenerCantidadPreguntasEvaluacion(idEvaluacion);
         lblCantidadPreguntas.setText(""+cantidadPreguntas+" preguntas");
 
-        btnEliminarCuestionario = findViewById(R.id.btnEliminarCuestionario);
+        btnEliminarCuestionario = findViewById(R.id.btnEliminarPregunta);
         btnActualizar = findViewById(R.id.btnModificar);
         fabAgregarPregunta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +98,11 @@ public class EvaluacionInformacion extends AppCompatActivity implements Adaptado
     @Override
     public void onItemClick(Pregunta pregunta) {
         // Manejar el clic en el elemento
-        Toast.makeText(this, "Clic en: " + pregunta.getIdPregunta(), Toast.LENGTH_SHORT).show();
-        /*Intent intent = new Intent(EvaluacionesCreadas.this, EvaluacionInformacion.class);
-        intent.putExtra("idEvaluacion",evaluacion.getIdEvaluacion());
-        startActivity(intent);*/
+        //Toast.makeText(this, "Clic en: " + pregunta.getIdPregunta(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EvaluacionInformacion.this, PreguntaInformacion.class);
+        intent.putExtra("idPregunta",pregunta.getIdPregunta());
+        intent.putExtra("idEvaluacion",Integer.parseInt(txtIdEvaluacion.getText().toString()));
+        startActivity(intent);
     }
 
     private void mostrarDialogoAgregarPregunta(Context context, int idEvaluacion) {

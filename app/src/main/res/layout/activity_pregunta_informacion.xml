@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EvaluacionInformacion">
+    tools:context=".PreguntaInformacion">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -39,8 +39,8 @@
                     android:id="@+id/lblTituloPreguntaDetalle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="36dp"
                     android:foregroundTint="@color/white"
                     android:text="Titulo evaluacion"
                     android:textColor="@color/white"
@@ -48,18 +48,6 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/btnRegresar"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/lblCantidadPreguntasDetalle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="TextView"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/btnRegresar"
-                    app:layout_constraintTop_toBottomOf="@+id/lblTituloPreguntaDetalle" />
 
                 <ImageView
                     android:id="@+id/btnEliminarPregunta"
@@ -86,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Descripción"
+                android:text="Enunciado"
                 android:textAlignment="viewStart"
                 android:textColor="@color/main"
                 android:textSize="20sp"
@@ -102,13 +90,21 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/txtIdEvaluacionDetalle"
+            android:id="@+id/txtIdPregunta"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:ems="10"
             android:inputType="text"
             android:text="Name"
             android:visibility="invisible"/>
+        <EditText
+            android:id="@+id/txtIdEvaluacion"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Name"
+            android:visibility="invisible" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -137,12 +133,12 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Preguntas"
-                android:textSize="30sp"
-                android:textStyle="bold"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="Opciones"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnAgregarOpcion"

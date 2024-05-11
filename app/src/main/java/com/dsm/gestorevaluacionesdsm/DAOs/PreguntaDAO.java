@@ -32,6 +32,8 @@ public class PreguntaDAO {
 
         db.close();
         return result;
+
+
     }
 
     public float puntajeDisponible(int idEvaluacion){
@@ -71,5 +73,23 @@ public class PreguntaDAO {
         db.close();
 
         return preguntas;
+    }
+
+    public String obtenerNombreEvaluacion(int idEvaluacion){
+        String nombre = "";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT nombre_evaluacion FROM evaluaciones WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        if (cursor.moveToFirst()) {
+            do {
+                nombre = cursor.getString(cursor.getColumnIndex("nombre_evaluacion"));
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return nombre;
     }
 }
