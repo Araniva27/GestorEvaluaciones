@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="20dp" /> <!-- Cambia el valor de "20dp" según el radio que desees -->
+    <solid android:color="#F2FBFA" /> <!-- Color de fondo del LinearLayout -->
+    <stroke
+        android:width="1dp"
+        android:color="#F2FBFA" /> <!-- Color y ancho del borde -->
+</shape>

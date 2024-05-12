@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#20817F"
+    tools:context=".CuestionarioCalificado"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ContenedorOpciones"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:src="@drawable/atras_28"
+            android:layout_margin="2dp"
+            android:layout_gravity="start"/>
+
+        <TextView
+            android:id="@+id/textEvaluacion"
+            android:layout_width="0dp"
+            android:layout_margin="2dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Contabilidad"
+            android:textColor="#A6E9E1"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ContenedorPregunta"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25sp"
+        tools:ignore="MissingConstraints"
+        android:paddingTop="10sp"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        android:background="@drawable/estilocontenedorpreguntas">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/textoPrincipal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="Muy bien hecho!"
+                android:textColor="#20817F"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                />
+            <TextView
+                android:id="@+id/textoNota"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="8.5!"
+                android:textColor="#20817F"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                />
+            <ImageView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_image"
+                android:layout_gravity="center_horizontal"
+
+                app:srcCompat="@drawable/contabilidad"
+                android:adjustViewBounds="true"/>
+            <TextView
+                android:id="@+id/textoSecundario"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="¡Vamos! Hay margen para mejorar, pero puedes hacerlo."
+                android:textColor="#20817F"
+                android:textSize="18sp"
+                android:padding="5sp"
+                android:textAlignment="center"
+                />
+            <Button
+                android:id="@+id/btnCalificar"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:text="Calificar"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/estilosboton"
+                />
+            <Button
+                android:id="@+id/btnRegresar"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:text="Regresar"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:background="@drawable/estilosboton"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
