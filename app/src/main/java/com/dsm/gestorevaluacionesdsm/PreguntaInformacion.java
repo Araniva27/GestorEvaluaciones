@@ -32,12 +32,12 @@ import java.util.List;
 public class PreguntaInformacion extends AppCompatActivity implements AdaptadorOpciones.OnItemClickListener {
 
     EditText txtIdPregunta, txtIdEvaluacion;
-    TextView lblNombreEvaluacion, lblPregunta;
+    TextView lblNombreEvaluacion, lblPregunta, txtPreguntaActualizar, txtValoracionActualizar;
     RecyclerView recyclerView;
     OpcionesDAO opcionesDAO = new OpcionesDAO(PreguntaInformacion.this);
     PreguntaDAO preguntasDAO = new PreguntaDAO(PreguntaInformacion.this);
     AdaptadorOpciones adaptador;
-    ImageView btnRegresar, btnEliminar;
+    ImageView btnRegresar, btnEliminar, btnModificar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +75,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         lblPregunta.setText(""+pregunta);
         btnRegresar = findViewById(R.id.btnRegresar);
         btnEliminar = findViewById(R.id.btnEliminarPregunta);
+        btnModificar = findViewById(R.id.btnModificar);
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +90,13 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
             @Override
             public void onClick(View v) {
                 mostrarDialogoConfirmacionEliminacion(PreguntaInformacion.this, idPregunta, idEvaluacion);
+            }
+        });
+
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoModificarPregunta(PreguntaInformacion.this, idPregunta);
             }
         });
 
@@ -184,6 +192,53 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                     Toast.makeText(context, "La pregunta ha sido eliminada correctamente", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "Ha ocurrido un error al eliminar la pregunta", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
+    }
+
+    private void mostrarDialogoModificarPregunta(Context context, int idPregunta) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("IMPORTANTE");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_modificar_pregunta, null);
+        builder.setView(viewInflated);
+
+        txtPreguntaActualizar = viewInflated.findViewById(R.id.txtPreguntaActualizar);
+        txtValoracionActualizar = viewInflated.findViewById(R.id.txtValoracionActualizar);
+        txtIdPregunta = viewInflated.findViewById(R.id.txtIdPregunta);
+        PreguntaDAO preguntaDao = new PreguntaDAO(PreguntaInformacion.this);
+        txtPreguntaActualizar.setText(preguntaDao.obtenerPregunta(idPregunta));
+        txtValoracionActualizar.setText(preguntaDao.obtenerValoracion(idPregunta).toString());
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String pregunta = txtPreguntaActualizar.getText().toString();
+                //int idPreguntaActualiz = Integer.parseInt(txtIdPregunta.getText().toString());
+                float valoracion = Float.parseFloat(txtValoracionActualizar.getText().toString());
+
+                Pregunta preguntaObj = new Pregunta();
+                preguntaObj.setPregunta(pregunta);
+                preguntaObj.setValoracion(valoracion);
+
+                if(preguntasDAO.modificarPregunta(preguntaObj, idPregunta) != -1){
+                    lblPregunta.setText(""+preguntaDao.obtenerPregunta(idPregunta));
+                    Toast.makeText(context, "La pregunta ha sido modificada correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Ha ocurrido un error al modificar la pregunta", Toast.LENGTH_SHORT).show();
                 }
 
 

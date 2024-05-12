@@ -106,6 +106,19 @@ public class PreguntaDAO {
         return nombre;
     }
 
+    public Float obtenerValoracion(int idPregunta){
+        Float valoracion = 0.0f;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT valoracion FROM preguntas_evaluacion WHERE id_pregunta = ?", new String[]{String.valueOf(idPregunta)});
+        if (cursor.moveToFirst()) {
+            do {
+                valoracion = cursor.getFloat(cursor.getColumnIndex("valoracion"));
+            } while (cursor.moveToNext());
+        }
+
+        return valoracion;
+    }
+
     public int eliminarPregunta(int idPregunta){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -117,5 +130,22 @@ public class PreguntaDAO {
 
         db.close();
         return resultPregunta;
+    }
+
+    public int modificarPregunta(Pregunta pregunta, int idPregunta) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("pregunta", pregunta.getPregunta());
+        values.put("valoracion", pregunta.getValoracion());
+
+
+        // La condición WHERE especifica qué lista debe ser actualizada
+        String whereClause = "id_pregunta = ?";
+        String[] whereArgs = {String.valueOf(idPregunta)};
+
+        int result = db.update("preguntas_evaluacion", values, whereClause, whereArgs);
+
+        db.close();
+        return result;
     }
 }
