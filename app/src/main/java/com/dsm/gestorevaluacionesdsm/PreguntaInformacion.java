@@ -2,6 +2,8 @@ package com.dsm.gestorevaluacionesdsm;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,16 +17,23 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorOpciones;
+import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorPreguntas;
 import com.dsm.gestorevaluacionesdsm.DAOs.OpcionesDAO;
 import com.dsm.gestorevaluacionesdsm.DAOs.PreguntaDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Opciones;
 import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class PreguntaInformacion extends AppCompatActivity {
+import java.util.List;
+
+public class PreguntaInformacion extends AppCompatActivity implements AdaptadorOpciones.OnItemClickListener {
 
     EditText txtIdPregunta, txtIdEvaluacion;
-    TextView lblNombreEvaluacion;
+    TextView lblNombreEvaluacion, lblPregunta;
+    RecyclerView recyclerView;
+    OpcionesDAO opcionesDAO = new OpcionesDAO(PreguntaInformacion.this);
+    AdaptadorOpciones adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +48,9 @@ public class PreguntaInformacion extends AppCompatActivity {
         int idEvaluacion = intent.getIntExtra("idEvaluacion",-1);
         txtIdPregunta.setText(""+idPregunta);
         txtIdEvaluacion.setText(""+idEvaluacion);
-
+        lblPregunta = findViewById(R.id.lblPregunta);
+        recyclerView = findViewById(R.id.recyclerViewOpciones);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         PreguntaDAO pDao = new PreguntaDAO(PreguntaInformacion.this);
         String nombre = pDao.obtenerNombreEvaluacion(idEvaluacion);
         lblNombreEvaluacion.setText(nombre);
@@ -53,8 +64,23 @@ public class PreguntaInformacion extends AppCompatActivity {
                 );
             }
         });
+
+        mostrarOpciones(idPregunta);
+
+        String pregunta = pDao.obtenerPregunta(idPregunta);
+        lblPregunta.setText(""+pregunta);
+
     }
 
+    @Override
+    public void onItemClick(Opciones opcion) {
+        // Manejar el clic en el elemento
+        Toast.makeText(this, "Clic en: " + opcion.getIdOpcion(), Toast.LENGTH_SHORT).show();
+        /*Intent intent = new Intent(EvaluacionInformacion.this, PreguntaInformacion.class);
+        intent.putExtra("idPregunta",pregunta.getIdPregunta());
+        intent.putExtra("idEvaluacion",Integer.parseInt(txtIdEvaluacion.getText().toString()));
+        startActivity(intent);*/
+    }
     private void mostrarDialogoAgregarOpcion(Context context, int idPregunta) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Agregar Opción");
@@ -90,6 +116,7 @@ public class PreguntaInformacion extends AppCompatActivity {
                     } else if (result == -3) {
                         Toast.makeText(PreguntaInformacion.this, "Esta pregunta ya tiene 3 opciones", Toast.LENGTH_SHORT).show();
                     } else if (result != -1) {
+                        mostrarOpciones(idPregunta);
                         Toast.makeText(PreguntaInformacion.this, "Opción agregada correctamente", Toast.LENGTH_SHORT).show();
                     }
                 }else{
@@ -105,6 +132,12 @@ public class PreguntaInformacion extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private void mostrarOpciones(int idPregunta) {
+        List<Opciones> opciones = opcionesDAO.obtenerOpcionesPregunta(idPregunta);
+        adaptador = new AdaptadorOpciones(opciones,this, this);
+        recyclerView.setAdapter(adaptador);
     }
 
 }

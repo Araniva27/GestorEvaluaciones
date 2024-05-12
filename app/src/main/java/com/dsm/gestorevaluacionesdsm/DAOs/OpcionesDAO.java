@@ -7,7 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
+import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.Modelos.Opciones;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpcionesDAO {
     private DBHelper dbHelper;
@@ -103,5 +107,25 @@ public class OpcionesDAO {
     }
 
 
+    public List<Opciones> obtenerOpcionesPregunta(int idPregunta) {
+        List<Opciones> opciones = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM pregunta_opciones WHERE id_pregunta = "+idPregunta, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Opciones opcion = new Opciones();
+                opcion.setIdOpcion(cursor.getInt(cursor.getColumnIndex("id_opcion")));
+                opcion.setOpcion(cursor.getString(cursor.getColumnIndex("opcion")));
+                opcion.setEsCorrecta(cursor.getInt(cursor.getColumnIndex("respuesta_correcta")));
+                opciones.add(opcion);
+            } while (cursor.moveToNext());
+        }
 
+
+
+        cursor.close();
+        db.close();
+
+        return opciones;
+    }
 }

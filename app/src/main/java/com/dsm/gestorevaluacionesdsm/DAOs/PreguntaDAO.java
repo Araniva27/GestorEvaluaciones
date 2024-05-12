@@ -92,4 +92,17 @@ public class PreguntaDAO {
 
         return nombre;
     }
+
+    public String obtenerPregunta(int idPregunta){
+        String nombre = "";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT pregunta FROM preguntas_evaluacion WHERE id_pregunta = ?", new String[]{String.valueOf(idPregunta)});
+        if (cursor.moveToFirst()) {
+            do {
+                nombre = cursor.getString(cursor.getColumnIndex("pregunta"));
+            } while (cursor.moveToNext());
+        }
+
+        return nombre;
+    }
 }
