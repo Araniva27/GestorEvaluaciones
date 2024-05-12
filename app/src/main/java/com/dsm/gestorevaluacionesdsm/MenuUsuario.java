@@ -36,9 +36,9 @@ public class MenuUsuario extends AppCompatActivity implements AdaptadorEvaluacio
     public void onItemClick(Evaluacion evaluacion) {
         // Manejar el clic en el elemento
         //Toast.makeText(this, "Clic en: " + evaluacion.getIdEvaluacion(), Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(EvaluacionesCreadas.this, EvaluacionInformacion.class);
-        //intent.putExtra("idEvaluacion",evaluacion.getIdEvaluacion());
-       // startActivity(intent);
+        Intent intent = new Intent(MenuUsuario.this, DetalleCuestionario.class);
+        intent.putExtra("idEvaluacion",evaluacion.getIdEvaluacion());
+       startActivity(intent);
     }
     private void mostrarEvaluaciones() {
         // Obtener la lista de evaluaciones desde la base de datos
