@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Bienvenido Administrador", Toast.LENGTH_SHORT).show();
                         } else if (datosUsuario[1] == 2){
                             Toast.makeText(LoginActivity.this, "Bienvenido Usuario", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MenuUsuario.class);
+                            startActivity(intent);
                         }
 
                     }else{
