@@ -49,7 +49,8 @@ public class PreguntaInformacion extends AppCompatActivity {
         fabAgregarOpcion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarDialogoAgregarOpcion(PreguntaInformacion.this, idPregunta);
+                mostrarDialogoAgregarOpcion(PreguntaInformacion.this, idPregunta
+                );
             }
         });
     }
@@ -96,7 +97,7 @@ public class PreguntaInformacion extends AppCompatActivity {
                 }
             }
         });
-
+        //Comentario de prueba
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
