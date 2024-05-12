@@ -96,7 +96,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarDialogoModificarPregunta(PreguntaInformacion.this, idPregunta);
+                mostrarDialogoModificarPregunta(PreguntaInformacion.this, idPregunta, idEvaluacion);
             }
         });
 
@@ -208,7 +208,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         builder.show();
     }
 
-    private void mostrarDialogoModificarPregunta(Context context, int idPregunta) {
+    private void mostrarDialogoModificarPregunta(Context context, int idPregunta, int idEvaluacion) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("IMPORTANTE");
 
@@ -230,16 +230,26 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 //int idPreguntaActualiz = Integer.parseInt(txtIdPregunta.getText().toString());
                 float valoracion = Float.parseFloat(txtValoracionActualizar.getText().toString());
 
-                Pregunta preguntaObj = new Pregunta();
-                preguntaObj.setPregunta(pregunta);
-                preguntaObj.setValoracion(valoracion);
-
-                if(preguntasDAO.modificarPregunta(preguntaObj, idPregunta) != -1){
-                    lblPregunta.setText(""+preguntaDao.obtenerPregunta(idPregunta));
-                    Toast.makeText(context, "La pregunta ha sido modificada correctamente", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context, "Ha ocurrido un error al modificar la pregunta", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(pregunta)) {
+                    Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                if(valoracion <= preguntaDao.puntajeDisponible(idEvaluacion)){
+                    Pregunta preguntaObj = new Pregunta();
+                    preguntaObj.setPregunta(pregunta);
+                    preguntaObj.setValoracion(valoracion);
+
+                    if(preguntasDAO.modificarPregunta(preguntaObj, idPregunta) != -1){
+                        lblPregunta.setText(""+preguntaDao.obtenerPregunta(idPregunta));
+                        Toast.makeText(context, "La pregunta ha sido modificada correctamente", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Ha ocurrido un error al modificar la pregunta", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(context, "La valoracion supera el valor permitido", Toast.LENGTH_SHORT).show();
+                }
+
 
 
             }
