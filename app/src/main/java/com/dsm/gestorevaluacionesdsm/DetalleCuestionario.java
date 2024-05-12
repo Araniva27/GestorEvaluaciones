@@ -2,6 +2,7 @@ package com.dsm.gestorevaluacionesdsm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,10 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorEvaluacionesUsuario;
 import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
+import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
 
 public class DetalleCuestionario extends AppCompatActivity implements AdaptadorEvaluacionesUsuario.OnItemClickListener {
     TextView txtNombreCuestionario, txtDescripcionCuestionario;
     ImageView imgBtnAtras;
+
+    Button btnComenzar;
 
     EvaluacionDAO evaluacionDAO = new EvaluacionDAO(DetalleCuestionario.this);
 
@@ -29,19 +33,29 @@ public class DetalleCuestionario extends AppCompatActivity implements AdaptadorE
         txtNombreCuestionario = findViewById(R.id.txtNombreCuestionario);
         txtDescripcionCuestionario = findViewById(R.id.txtDescripcionCuestionario);
         imgBtnAtras = findViewById(R.id.btnAtras);
+        btnComenzar= findViewById(R.id.btnComenzar);
         txtNombreCuestionario.setText(nombreEvaluacion);
         txtDescripcionCuestionario.setText(descripcionEvaluacion);
 
         imgBtnAtras.setOnClickListener(new View.OnClickListener() {
-            @Override
+
             public void onClick(View v) {
                 onBackPressed(); // Regresar a la interfaz anterior
+            }
+        });
+        btnComenzar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DetalleCuestionario.this,Preguntas.class );
+                intent.putExtra("idEvaluacion",idEvaluacion);
+                startActivity(intent);
             }
         });
     }
 
     @Override
     public void onItemClick(Evaluacion evaluacion) {
-        // Aquí puedes agregar el código para manejar el clic en un elemento de la lista si es necesario
+
     }
 }
