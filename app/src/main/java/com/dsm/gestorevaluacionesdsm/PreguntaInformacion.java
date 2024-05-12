@@ -13,12 +13,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorOpciones;
 import com.dsm.gestorevaluacionesdsm.Adaptadores.AdaptadorPreguntas;
+import com.dsm.gestorevaluacionesdsm.DAOs.EvaluacionDAO;
 import com.dsm.gestorevaluacionesdsm.DAOs.OpcionesDAO;
 import com.dsm.gestorevaluacionesdsm.DAOs.PreguntaDAO;
 import com.dsm.gestorevaluacionesdsm.Modelos.Opciones;
@@ -33,7 +35,9 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
     TextView lblNombreEvaluacion, lblPregunta;
     RecyclerView recyclerView;
     OpcionesDAO opcionesDAO = new OpcionesDAO(PreguntaInformacion.this);
+    PreguntaDAO preguntasDAO = new PreguntaDAO(PreguntaInformacion.this);
     AdaptadorOpciones adaptador;
+    ImageView btnRegresar, btnEliminar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,24 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
 
         String pregunta = pDao.obtenerPregunta(idPregunta);
         lblPregunta.setText(""+pregunta);
+        btnRegresar = findViewById(R.id.btnRegresar);
+        btnEliminar = findViewById(R.id.btnEliminarPregunta);
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PreguntaInformacion.this, EvaluacionInformacion.class);
+                intent.putExtra("idEvaluacion", idEvaluacion);
+                startActivity(intent);
+            }
+        });
+
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoConfirmacionEliminacion(PreguntaInformacion.this, idPregunta, idEvaluacion);
+            }
+        });
 
     }
 
@@ -138,6 +160,44 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         List<Opciones> opciones = opcionesDAO.obtenerOpcionesPregunta(idPregunta);
         adaptador = new AdaptadorOpciones(opciones,this, this);
         recyclerView.setAdapter(adaptador);
+    }
+
+    private void mostrarDialogoConfirmacionEliminacion(Context context, int idPregunta, int idEvaluacion) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("IMPORTANTE");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_confirmacion_borrar_pregunta, null);
+        builder.setView(viewInflated);
+
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                EvaluacionDAO eDao = new EvaluacionDAO(PreguntaInformacion.this);
+                if(preguntasDAO.eliminarPregunta(idPregunta) != -1){
+                    //startActivity(new Intent(PreguntaInformacion.this, EvaluacionesCreadas.class));
+                    Intent intent = new Intent(PreguntaInformacion.this, EvaluacionInformacion.class);
+                    intent.putExtra("idEvaluacion", idEvaluacion);
+                    startActivity(intent);
+                    Toast.makeText(context, "La pregunta ha sido eliminada correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Ha ocurrido un error al eliminar la pregunta", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
     }
 
 }

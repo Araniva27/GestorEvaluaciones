@@ -17,7 +17,8 @@
             android:id="@+id/imageViewEvaluacion"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/email" />
+            android:src="@drawable/contabilidad"
+            app:srcCompat="@drawable/contabilidad" />
 
         <LinearLayout
             android:layout_width="match_parent"

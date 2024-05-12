@@ -105,4 +105,17 @@ public class PreguntaDAO {
 
         return nombre;
     }
+
+    public int eliminarPregunta(int idPregunta){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String whereClause = "id_pregunta= ?";
+        String[] whereArgs = {String.valueOf(idPregunta)};
+
+        int result = db.delete("pregunta_opciones", whereClause, whereArgs);
+        int resultPregunta = db.delete("preguntas_evaluacion", whereClause, whereArgs);
+
+        db.close();
+        return resultPregunta;
+    }
 }
