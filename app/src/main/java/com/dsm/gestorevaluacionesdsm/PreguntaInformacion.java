@@ -349,7 +349,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 if(oDao.eliminarOpcion(idOpcion) != -1){
                     //startActivity(new Intent(EvaluacionInformacion.this, EvaluacionesCreadas.class));
                     Toast.makeText(context, "La opcion ha sido eliminada correctamente", Toast.LENGTH_SHORT).show();
-                    mostrarOpciones(idEva);
+                    mostrarOpciones(idPre);
 
                 }else{
                     Toast.makeText(context, "Ha ocurrido un error al eliminar la opcion", Toast.LENGTH_SHORT).show();
