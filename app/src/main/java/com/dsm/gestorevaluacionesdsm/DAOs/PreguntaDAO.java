@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
+import com.dsm.gestorevaluacionesdsm.Modelos.PreguntaConOpciones;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,12 +58,13 @@ public class PreguntaDAO {
     public List<Pregunta> obtenerPreguntasEvaluacion(int idEvaluacion) {
         List<Pregunta> preguntas = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id_pregunta, pregunta FROM preguntas_evaluacion WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
+        Cursor cursor = db.rawQuery("SELECT id_pregunta, pregunta,valoracion FROM preguntas_evaluacion WHERE id_evaluacion = ?", new String[]{String.valueOf(idEvaluacion)});
         if (cursor.moveToFirst()) {
             do {
                 Pregunta pregunta = new Pregunta();
                 pregunta.setIdPregunta(cursor.getInt(cursor.getColumnIndex("id_pregunta")));
                 pregunta.setPregunta(cursor.getString(cursor.getColumnIndex("pregunta")));
+                pregunta.setValoracion(cursor.getFloat(cursor.getColumnIndex("valoracion")));
                 preguntas.add(pregunta);
             } while (cursor.moveToNext());
         }
@@ -147,5 +149,10 @@ public class PreguntaDAO {
 
         db.close();
         return result;
+    }
+
+    public List<PreguntaConOpciones> obtenerPreguntasConOpciones(int idEvaluacion) {
+        //
+        return null;
     }
 }

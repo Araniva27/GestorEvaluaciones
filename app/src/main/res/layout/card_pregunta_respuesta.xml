@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textItemPregunta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pregunta"
+        android:textColor="#20817F"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:id="@+id/ContenedorTextoPregunta"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/estilotextopregunta"
+        android:elevation="3sp"
+        android:padding="20sp"
+        android:layout_marginTop="20sp">
+
+        <TextView
+            android:id="@+id/textoPregunta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Cuál es la fórmula correcta para calcular el patrimonio neto de una empresa?"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contenedorpreguntas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15sp">
+
+        <RadioGroup
+            android:id="@+id/radioGroupOpciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activo - Pasivo = Patrimonio"
+                android:textSize="18sp"
+                android:layout_marginBottom="5sp" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingresos - Gastos = Patrimonio Neto"
+                android:textSize="18sp"
+                android:layout_marginBottom="5sp" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activo + Pasivo = Patrimonio Neto"
+                android:textSize="18sp"
+                android:layout_marginBottom="5sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

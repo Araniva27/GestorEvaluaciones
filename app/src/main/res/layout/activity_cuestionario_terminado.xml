@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#20817F"
     android:orientation="vertical"
-    tools:context=".CuestionarioTerminado">
+    tools:context=".CuestionarioCalificado">
 
     <LinearLayout
         android:id="@+id/ContenedorOpciones"

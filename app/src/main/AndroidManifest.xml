@@ -13,6 +13,9 @@
         android:theme="@style/Theme.GestorEvaluacionesDSM"
         tools:targetApi="31">
         <activity
+            android:name=".CuestionarioCalificado"
+            android:exported="false" />
+        <activity
             android:name=".activity_actualizar_opcion"
             android:exported="false" />
         <activity
