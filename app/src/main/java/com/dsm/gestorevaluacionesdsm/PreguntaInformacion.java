@@ -304,9 +304,9 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
 
                 if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion, idPre) != -1){
                     if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion, idPre) != -2){
-                        Toast.makeText(context, "Ya existe una opcion correcta", Toast.LENGTH_SHORT).show();
-                    }else{
                         Toast.makeText(context, "Se ha actualizado la opcion correctamente", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "ya existe una opcion correcta", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
