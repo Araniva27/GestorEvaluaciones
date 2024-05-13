@@ -126,7 +126,7 @@ public class Preguntas extends AppCompatActivity implements AdaptadorEvaluacione
                         btnSiguiente.setText("Terminar");
 
                     }
-                    if (contador >= preguntas.size()) {
+                    if (contador == preguntas.size()) {
                         Intent intent = new Intent(Preguntas.this, CuestionarioCalificado.class);
                         intent.putExtra("idEvaluacion", idEvaluacion);
                         // Convertir el objeto ArrayList<Respuestas> a una cadena JSON

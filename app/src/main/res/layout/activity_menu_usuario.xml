@@ -61,25 +61,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginBottom="10sp"
                     />
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtBuscar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Buscar"
-                    android:textColorHint="#DDD"
-                    android:layout_marginBottom="5sp"
-                    app:layout_constraintTop_toBottomOf="@id/textIndicaciones"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    >
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="355dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/estilocampos"
-                        android:drawableStart="@drawable/baseline_manage_search_24"
-                        android:drawablePadding="8dp"
-                        android:padding="15dp"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/btnCerrarSesion"
+                    android:layout_width="360dp"
+                    android:layout_height="50dp"
+                    android:text="Cerrar Sesion"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="#FFF"
+                    android:layout_marginBottom="10sp"
+                    android:background="@drawable/estilosboton"
+                    />
             </LinearLayout>
         </FrameLayout>
 
