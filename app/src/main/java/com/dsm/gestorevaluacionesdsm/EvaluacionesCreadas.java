@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
     RecyclerView recyclerView;
     private EvaluacionDAO evaluacionDAO;
     private AdaptadorEvaluaciones adaptador;
+
+    Button btnCerrarSesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,7 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
 
         evaluacionDAO = new EvaluacionDAO(this);
 
-
+        btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         FloatingActionButton fabAgregarEvaluacion = findViewById(R.id.fabAgregarEvaluacion);
         fabAgregarEvaluacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +52,13 @@ public class EvaluacionesCreadas extends AppCompatActivity implements AdaptadorE
             }
         });
 
+
+        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EvaluacionesCreadas.this, LoginActivity.class));
+            }
+        });
         mostrarEvaluaciones();
 
 
