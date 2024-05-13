@@ -167,7 +167,7 @@ public class OpcionesDAO {
         return correcta;
     }
 
-    public int modificarOpcion(Opciones opciones, int idOpcion) {
+    /*public int modificarOpcion(Opciones opciones, int idOpcion) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("opcion", opciones.getOpcion());
@@ -182,9 +182,9 @@ public class OpcionesDAO {
 
         db.close();
         return result;
-    }
+    }*/
 
-    /*public int modificarOpcion(Opciones opciones, int idOpcion) {
+    public int modificarOpcion(Opciones opciones, int idOpcion, int idPregunta) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("opcion", opciones.getOpcion());
@@ -193,7 +193,7 @@ public class OpcionesDAO {
         if (opciones.getEsCorrecta() == 1) {
             // Verificar si ya existe otra opción marcada como correcta para la misma pregunta
             String query = "SELECT COUNT(*) FROM pregunta_opciones WHERE id_pregunta = ? AND respuesta_correcta = 1 AND id_opcion != ?";
-            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(opciones.getIdPregunta()), String.valueOf(idOpcion)});
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idPregunta), String.valueOf(idOpcion)});
             cursor.moveToFirst();
             int opcionesCorrectas = cursor.getInt(0);
             cursor.close();
@@ -215,6 +215,17 @@ public class OpcionesDAO {
 
         db.close();
         return result;
-    }*/
+    }
+    public int eliminarOpcion(int idOpcion){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        String whereClause = "id_opcion = ?";
+        String[] whereArgs = {String.valueOf(idOpcion)};
+
+        int result = db.delete("pregunta_opciones", whereClause, whereArgs);
+        //int resultEvaluation = db.delete("evaluaciones", whereClause, whereArgs);
+
+        db.close();
+        return result;
+    }
 }

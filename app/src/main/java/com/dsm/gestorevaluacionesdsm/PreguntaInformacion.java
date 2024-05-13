@@ -39,6 +39,8 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
     PreguntaDAO preguntasDAO = new PreguntaDAO(PreguntaInformacion.this);
     AdaptadorOpciones adaptador;
     ImageView btnRegresar, btnEliminar, btnModificar;
+    int idEva = 0;
+    int idPre = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         lblNombreEvaluacion.setText(nombre);
 
         FloatingActionButton fabAgregarOpcion = findViewById(R.id.btnAgregarOpcion);
-
+        idEva = idEvaluacion;
         fabAgregarOpcion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +95,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 mostrarDialogoConfirmacionEliminacion(PreguntaInformacion.this, idPregunta, idEvaluacion);
             }
         });
-
+        idPre = idPregunta;
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +107,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
     @Override
     public void onItemClick(Opciones opcion) {
         // Manejar el clic en el elemento
-        Toast.makeText(this, "Clic en: " + opcion.getIdOpcion(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Clic en: " + opcion.getIdOpcion(), Toast.LENGTH_SHORT).show();
         mostrarDialogActualizarOpcion(PreguntaInformacion.this, opcion.getIdOpcion());
         /*Intent intent = new Intent(EvaluacionInformacion.this, PreguntaInformacion.class);
         intent.putExtra("idPregunta",pregunta.getIdPregunta());
@@ -300,8 +302,8 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 opcionesObje.setOpcion(opcion);
                 opcionesObje.setEsCorrecta(esCorrecta);
 
-                if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion) != -1){
-                    if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion) != -2){
+                if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion, idPre) != -1){
+                    if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion, idPre) != -2){
                         Toast.makeText(context, "Ya existe una opcion correcta", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(context, "Se ha actualizado la opcion correctamente", Toast.LENGTH_SHORT).show();
@@ -310,6 +312,49 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 }else{
                     Toast.makeText(context, "Ha ocurrido un error al actualizar la opcion", Toast.LENGTH_SHORT).show();
                 }
+
+            }
+        });
+        builder.setNeutralButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                mostrarDialogoConfirmacionEliminacionOpcion(PreguntaInformacion.this, idOpcion);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        // Mostrar el diálogo
+        builder.show();
+    }
+
+    private void mostrarDialogoConfirmacionEliminacionOpcion(Context context, int idOpcion) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("IMPORTANTE");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_eliminar_opcion, null);
+        builder.setView(viewInflated);
+
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                OpcionesDAO oDao = new OpcionesDAO(PreguntaInformacion.this);
+                if(oDao.eliminarOpcion(idOpcion) != -1){
+                    //startActivity(new Intent(EvaluacionInformacion.this, EvaluacionesCreadas.class));
+                    Toast.makeText(context, "La opcion ha sido eliminada correctamente", Toast.LENGTH_SHORT).show();
+                    mostrarOpciones(idEva);
+
+                }else{
+                    Toast.makeText(context, "Ha ocurrido un error al eliminar la opcion", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
