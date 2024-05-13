@@ -238,7 +238,7 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                     return;
                 }
 
-                if(valoracion <= preguntaDao.puntajeDisponible(idEvaluacion)){
+                //if(valoracion <= preguntaDao.puntajeDisponible(idEvaluacion)){
                     Pregunta preguntaObj = new Pregunta();
                     preguntaObj.setPregunta(pregunta);
                     preguntaObj.setValoracion(valoracion);
@@ -249,9 +249,9 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                     }else{
                         Toast.makeText(context, "Ha ocurrido un error al modificar la pregunta", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                /*}else{
                     Toast.makeText(context, "La valoracion supera el valor permitido", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
 
 
