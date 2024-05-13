@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pregunta"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txtOpcionActualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Opcion"
+        android:inputType="text" />
+
+
+    <CheckBox
+        android:id="@+id/chbRespuestaCorrecta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Es la respuesta correcta" />
+
+    <EditText
+        android:id="@+id/txtIdOpcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de la Evaluación"
+        android:inputType="text"
+        android:visibility="invisible"/>
+
+</LinearLayout>

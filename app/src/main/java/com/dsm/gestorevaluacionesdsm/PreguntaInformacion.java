@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -99,13 +100,13 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
                 mostrarDialogoModificarPregunta(PreguntaInformacion.this, idPregunta, idEvaluacion);
             }
         });
-
     }
 
     @Override
     public void onItemClick(Opciones opcion) {
         // Manejar el clic en el elemento
         Toast.makeText(this, "Clic en: " + opcion.getIdOpcion(), Toast.LENGTH_SHORT).show();
+        mostrarDialogActualizarOpcion(PreguntaInformacion.this, opcion.getIdOpcion());
         /*Intent intent = new Intent(EvaluacionInformacion.this, PreguntaInformacion.class);
         intent.putExtra("idPregunta",pregunta.getIdPregunta());
         intent.putExtra("idEvaluacion",Integer.parseInt(txtIdEvaluacion.getText().toString()));
@@ -265,4 +266,61 @@ public class PreguntaInformacion extends AppCompatActivity implements AdaptadorO
         builder.show();
     }
 
+    private void mostrarDialogActualizarOpcion(Context context, int idOpcion){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("IMPORTANTE");
+
+        // Inflar el layout personalizado para el diálogo
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialog_modificar_opcion, null);
+        builder.setView(viewInflated);
+
+        EditText txtOpcion= viewInflated.findViewById(R.id.txtOpcionActualizar);
+        CheckBox chbEsCorrecta = viewInflated.findViewById(R.id.chbRespuestaCorrecta);
+        EditText txtIdOpcion = viewInflated.findViewById(R.id.txtIdOpcion);
+        OpcionesDAO opcionesDao = new OpcionesDAO(PreguntaInformacion.this);
+        txtOpcion.setText(""+opcionesDao.obtenerOpcion(idOpcion));
+        int esCorrecta = opcionesDao.obtenerCorrecta(idOpcion);
+        chbEsCorrecta.setChecked(esCorrecta == 1);
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String opcion = txtOpcion.getText().toString();
+                //int idPreguntaActualiz = Integer.parseInt(txtIdPregunta.getText().toString());
+                int esCorrecta = chbEsCorrecta.isChecked() ? 1 : 0;
+
+                if (TextUtils.isEmpty(opcion)) {
+                    Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Opciones opcionesObje = new Opciones();
+
+
+                opcionesObje.setOpcion(opcion);
+                opcionesObje.setEsCorrecta(esCorrecta);
+
+                if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion) != -1){
+                    if(opcionesDAO.modificarOpcion(opcionesObje, idOpcion) != -2){
+                        Toast.makeText(context, "Ya existe una opcion correcta", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Se ha actualizado la opcion correctamente", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    Toast.makeText(context, "Ha ocurrido un error al actualizar la opcion", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Mostrar el diálogo
+        builder.show();
+    }
 }

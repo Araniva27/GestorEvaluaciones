@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.dsm.gestorevaluacionesdsm.DBHelper.DBHelper;
 import com.dsm.gestorevaluacionesdsm.Modelos.Evaluacion;
 import com.dsm.gestorevaluacionesdsm.Modelos.Opciones;
+import com.dsm.gestorevaluacionesdsm.Modelos.Pregunta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,4 +129,92 @@ public class OpcionesDAO {
 
         return opciones;
     }
+
+
+    public String obtenerOpcion(int idOpcion){
+        String opcion = "";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT opcion FROM pregunta_opciones WHERE id_opcion = ?", new String[]{String.valueOf(idOpcion)});
+        if (cursor.moveToFirst()) {
+            do {
+                opcion = cursor.getString(cursor.getColumnIndex("opcion"));
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return opcion;
+    }
+
+    public int obtenerCorrecta(int idOpcion){
+        int correcta = 0;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT respuesta_correcta FROM pregunta_opciones WHERE id_opcion = ?", new String[]{String.valueOf(idOpcion)});
+        if (cursor.moveToFirst()) {
+            do {
+                correcta = cursor.getInt(cursor.getColumnIndex("respuesta_correcta"));
+            } while (cursor.moveToNext());
+        }
+
+
+
+        cursor.close();
+        db.close();
+
+        return correcta;
+    }
+
+    public int modificarOpcion(Opciones opciones, int idOpcion) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("opcion", opciones.getOpcion());
+        values.put("respuesta_correcta", opciones.getEsCorrecta());
+
+
+        // La condición WHERE especifica qué lista debe ser actualizada
+        String whereClause = "id_opcion = ?";
+        String[] whereArgs = {String.valueOf(idOpcion)};
+
+        int result = db.update("pregunta_opciones", values, whereClause, whereArgs);
+
+        db.close();
+        return result;
+    }
+
+    /*public int modificarOpcion(Opciones opciones, int idOpcion) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("opcion", opciones.getOpcion());
+
+        // Verificar si la opción que se va a modificar es la correcta
+        if (opciones.getEsCorrecta() == 1) {
+            // Verificar si ya existe otra opción marcada como correcta para la misma pregunta
+            String query = "SELECT COUNT(*) FROM pregunta_opciones WHERE id_pregunta = ? AND respuesta_correcta = 1 AND id_opcion != ?";
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(opciones.getIdPregunta()), String.valueOf(idOpcion)});
+            cursor.moveToFirst();
+            int opcionesCorrectas = cursor.getInt(0);
+            cursor.close();
+
+            // Si ya hay otra opción marcada como correcta, no modificar la opción actual
+            if (opcionesCorrectas > 0) {
+                db.close();
+                return -2; // Indica que ya existe otra opción marcada como correcta
+            }
+        }
+
+        values.put("respuesta_correcta", opciones.getEsCorrecta());
+
+        // La condición WHERE especifica qué lista debe ser actualizada
+        String whereClause = "id_opcion = ?";
+        String[] whereArgs = {String.valueOf(idOpcion)};
+
+        int result = db.update("pregunta_opciones", values, whereClause, whereArgs);
+
+        db.close();
+        return result;
+    }*/
+
 }
